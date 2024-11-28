@@ -1,0 +1,59 @@
+def foo(a, b) -> i32 {
+	(a * b + 5) / 2
+}
+
+def main -> () {
+	let a = 5
+	let b: i32 = 7
+
+	let c := foo(a, b)
+	c -= 4
+
+	// unamed block
+	{
+		let e = 1   // local mask
+		let c = 1
+
+		c += e      // doesn't work because local c is constant
+	}
+
+	// parenthesis are optionnal but brackets are always mandatory
+	if a == 5 {
+		println("pretty cool right ?")
+	} else {
+		println("meh")
+	}
+
+	let foo_5 = fun x -> foo(5, x)
+
+	// closure
+	let bar = fun x: i32 -> i32 -> {
+		let tmp = foo(5, x)
+		print(tmp)
+
+		return tmp
+	}
+
+	println(bar(a))
+
+	// functor
+	let baz1 = fun a: i32 = 0 -> i32 {
+		a += 5
+		a
+	}
+	// a == 5
+
+	// parameters are passed by value for simple objects
+	let baz2 = fun a: i32 -> i32 {
+		a += 5
+		a
+	}
+	// a == 5
+
+	let baz3 = fun pa: &i32 -> i32 {
+		*pa += 5
+		pa
+	}
+	// baz3(&a) == 10
+	// a == 10 
+}

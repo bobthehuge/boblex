@@ -1,0 +1,18 @@
+expr       :=   '(' expr ')'
+           |    '{' expr '}'
+           |    prefix-symbol expr
+           |    expr infix-op expr
+           |    decl
+           |    'if' expr expr { 'else' expr }?
+
+pattern    :=   value-name { ':' typexpr }?
+
+decl       :=   'let' pattern ':'?'=' expr
+
+def        :=   'def' value-name '(' { param-list }? ')' '->' '{' expr '}'
+
+param-list :=   { pattern { ',' param-list }* }
+
+main       :=   'def' 'main' '->' {'()' | 'i32'} '{' expr '}'
+
+program    :=   { def }* main
